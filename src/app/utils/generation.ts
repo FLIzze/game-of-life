@@ -28,7 +28,9 @@ function nextGeneration(
     elementSize: number,
     ctx: CanvasRenderingContext2D,
 ) {
+
     const tempAliveCellsSet = new Set<string>();
+    const cellsToDraw = new Set<string>();
 
     for (const key of aliveCellsSet) {
         const [i, j] = key.split('-').map(Number);
@@ -36,6 +38,8 @@ function nextGeneration(
 
         if (neighbors === 3 || neighbors === 2) {
             tempAliveCellsSet.add(key);  
+        } else {
+            cellsToDraw.add(key);
         }
     }
 
@@ -51,6 +55,7 @@ function nextGeneration(
 
                 if (!aliveCellsSet.has(neighborKey) && getNeighbors(ni, nj, aliveCellsSet) === 3) {
                     tempAliveCellsSet.add(neighborKey);  
+                    cellsToDraw.add(neighborKey);
                 }
             }
         }
@@ -59,7 +64,15 @@ function nextGeneration(
     aliveCellsSet.clear(); 
     tempAliveCellsSet.forEach(cell => aliveCellsSet.add(cell)); 
 
-    DrawGrid(canvasRef.current!, ctx, elementSize, aliveCellsSet);
+    cellsToDraw.forEach(key => {
+        const [i, j] = key.split('-').map(Number);
+        if (aliveCellsSet.has(key)) {
+            ctx.fillStyle = 'black';  
+        } else {
+            ctx.fillStyle = 'white'; 
+        }
+        ctx.fillRect(i * elementSize + 1, j * elementSize + 1, elementSize - 2, elementSize - 2);
+    });
 }
 
 export { nextGeneration };

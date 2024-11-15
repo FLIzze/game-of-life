@@ -13,9 +13,7 @@ function getNeighbors(
     let count = 0;
     for (const [dx, dy] of neighborOffsets) {
         const neighborKey = `${i + dx}-${j + dy}`;
-        if (aliveCellsSet.has(neighborKey)) {
-            count++;
-        }
+        if (aliveCellsSet.has(neighborKey)) count++;
     }
     return count;
 }

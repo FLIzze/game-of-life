@@ -2,13 +2,13 @@
 
 import { useRef, useEffect, useMemo, useCallback, useState } from 'react';
 
-import { DrawGrid, DrawPixel } from '@/app/utils/draw';
-import { GetCords } from '@/app/utils/cords';
+import { DrawGrid } from '@/app/utils/draw';
 import { nextGeneration } from '@/app/utils/generation';
+import { handleMouseMove, handleOnClick, handleKey } from '@/app/utils/input';
 
 export default function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const lastCords = useRef<[number, number]>();
+    const lastCords = useRef<[number, number]>() as React.MutableRefObject<[number, number]>;
 
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
@@ -32,39 +32,8 @@ export default function Home() {
     }, [aliveCellsSet, elementSize, getContext]); 
 
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Shift') setIsShiftPressed(true);
-        };
-
-        const handleKeyUp = (e: KeyboardEvent) => {
-            if (e.key === 'Shift') setIsShiftPressed(false);
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('keyup', handleKeyUp);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('keyup', handleKeyUp);
-        };
+        handleKey(setIsShiftPressed);
     }, []);
-
-    function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
-        if (!isMouseDown || !isShiftPressed) return;
-
-        const [i, j] = GetCords(e, elementSize);
-        if (lastCords.current && lastCords.current[0] === i && lastCords.current[1] === j) return;
-        lastCords.current = [i, j];
-        DrawPixel(i, j, getContext()!, aliveCellsSet, elementSize);
-    }
-
-    function handleOnClick(e: React.MouseEvent<HTMLCanvasElement>) {
-        if (isShiftPressed) return;
-
-        const [i, j] = GetCords(e, elementSize);
-        lastCords.current = [i, j];
-        DrawPixel(i, j, getContext()!, aliveCellsSet, elementSize);
-    }
 
     return (
         <div>
@@ -72,7 +41,7 @@ export default function Home() {
                 ref={canvasRef} 
                 height={gridHeight}
                 width={gridWidth}
-                onClick={handleOnClick}
+                onClick={(e) => handleOnClick(e, lastCords, isShiftPressed, elementSize, aliveCellsSet, getContext()!)}
                 onMouseDown={(e) => {
                     e.preventDefault();
                     setIsMouseDown(true);
@@ -81,12 +50,23 @@ export default function Home() {
                     e.preventDefault();
                     setIsMouseDown(false);
                 }} 
-                onMouseMove={handleMouseMove}
+                onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, elementSize, aliveCellsSet, getContext()!)}
             />
-            <button 
-                type="button"
-                onClick={() => nextGeneration(aliveCellsSet, elementSize, getContext()!)}
-            > next generation </button>   
+
+            <div className='fixed bottom-0 bg-white w-screen text-xl flex gap-x-5'>
+                <button 
+                    type="button"
+                    onClick={() => nextGeneration(aliveCellsSet, elementSize, getContext()!)}
+                > next generation </button>   
+
+                <button 
+                    type="button"
+                    onClick={() => {
+                        aliveCellsSet.clear();
+                        DrawGrid(canvasRef.current!, getContext()!, elementSize, aliveCellsSet);
+                    }}
+                > clear </button>   
+            </div>
         </div>
     );
 }

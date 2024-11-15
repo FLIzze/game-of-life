@@ -1,5 +1,3 @@
-import { DrawGrid } from '@/app/utils/draw';
-
 function getNeighbors(
     i: number, 
     j: number,
@@ -24,7 +22,6 @@ function getNeighbors(
 
 function nextGeneration(
     aliveCellsSet: Set<string>,
-    canvasRef: React.RefObject<HTMLCanvasElement>,
     elementSize: number,
     ctx: CanvasRenderingContext2D,
 ) {

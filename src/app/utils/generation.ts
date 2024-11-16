@@ -1,3 +1,5 @@
+import { DrawCells } from '@/app/utils/draw';
+
 function getNeighbors(
     i: number, 
     j: number,
@@ -59,15 +61,7 @@ function nextGeneration(
     aliveCellsSet.clear(); 
     tempAliveCellsSet.forEach(cell => aliveCellsSet.add(cell)); 
 
-    cellsToDraw.forEach(key => {
-        const [i, j] = key.split('-').map(Number);
-        if (aliveCellsSet.has(key)) {
-            ctx.fillStyle = 'black';  
-        } else {
-            ctx.fillStyle = 'white'; 
-        }
-        ctx.fillRect(i * elementSize + 1, j * elementSize + 1, elementSize - 2, elementSize - 2);
-    });
+    DrawCells(ctx, elementSize, aliveCellsSet, cellsToDraw);
 }
 
 export { nextGeneration };

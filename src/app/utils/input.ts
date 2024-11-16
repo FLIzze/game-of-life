@@ -6,17 +6,23 @@ function handleMouseMove(
     lastCords: React.MutableRefObject<[number, number]>,
     isMouseDown: boolean,
     isShiftPressed: boolean,
+    isCtrlPressed: boolean,
     elementSize: number,
     aliveCellsSet: Set<string>,
     ctx: CanvasRenderingContext2D
 ) {
 
-    if (!isMouseDown || !isShiftPressed) return;
+    if (!isMouseDown) return;
 
     const [i, j] = GetCords(e, elementSize);
     if (lastCords.current && lastCords.current[0] === i && lastCords.current[1] === j) return;
     lastCords.current = [i, j];
-    DrawPixel(i, j, ctx, aliveCellsSet, elementSize);
+
+    if (isShiftPressed) {
+        DrawPixel(i, j, ctx, aliveCellsSet, elementSize);
+    } else if (isCtrlPressed) {
+        console.log('ctrl pressed', i, j);
+    }
 }
 
 function handleOnClick(
@@ -36,15 +42,24 @@ function handleOnClick(
 }
 
 function handleKey(
-    setIsShiftPressed: React.Dispatch<React.SetStateAction<boolean>>
+    setIsShiftPressed: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsCtrlPressed: React.Dispatch<React.SetStateAction<boolean>>
 ) {
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Shift') setIsShiftPressed(true);
+        if (e.key === 'Shift') {
+            setIsShiftPressed(true)
+        } else if (e.key === 'Control') {
+            setIsCtrlPressed(true);
+        }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-        if (e.key === 'Shift') setIsShiftPressed(false);
+        if (e.key === 'Shift') {
+            setIsShiftPressed(false);
+        } else if (e.key === 'Control') {
+            setIsCtrlPressed(false);
+        }
     };
 
     window.addEventListener('keydown', handleKeyDown);

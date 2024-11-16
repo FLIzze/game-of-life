@@ -13,6 +13,7 @@ export default function Home() {
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
     const [isShiftPressed, setIsShiftPressed] = useState(false);
+    const [isCtrlPressed, setIsCtrlPressed] = useState(false);
     const [isMouseDown, setIsMouseDown] = useState(false);
 
     const elementSize = 30;
@@ -32,7 +33,7 @@ export default function Home() {
     }, [aliveCellsSet, elementSize, getContext]); 
 
     useEffect(() => {
-        handleKey(setIsShiftPressed);
+        handleKey(setIsShiftPressed, setIsCtrlPressed);
     }, []);
 
     return (
@@ -50,7 +51,7 @@ export default function Home() {
                     e.preventDefault();
                     setIsMouseDown(false);
                 }} 
-                onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, elementSize, aliveCellsSet, getContext()!)}
+                onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, isCtrlPressed, elementSize, aliveCellsSet, getContext()!)}
             />
 
             <div className='fixed bottom-0 bg-white w-screen text-xl flex gap-x-5'>

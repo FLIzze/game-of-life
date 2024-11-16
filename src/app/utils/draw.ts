@@ -48,4 +48,21 @@ function DrawGrid(
     }
 }
 
-export { DrawPixel, DrawGrid };
+function DrawCells(
+    ctx: CanvasRenderingContext2D,
+    elementSize: number,
+    aliveCellsSet: Set<string>,
+    cellsToDraw: Set<string>
+) {
+    cellsToDraw.forEach(key => {
+        const [i, j] = key.split('-').map(Number);
+        if (aliveCellsSet.has(key)) {
+            ctx.fillStyle = 'black';  
+        } else {
+            ctx.fillStyle = 'white'; 
+        }
+        ctx.fillRect(i * elementSize + 1, j * elementSize + 1, elementSize - 2, elementSize - 2);
+    });
+}
+
+export { DrawPixel, DrawGrid, DrawCells };

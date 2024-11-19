@@ -2,14 +2,14 @@
 
 import { useRef, useEffect, useMemo, useCallback, useState } from 'react';
 
-import { DrawGrid, DrawSelection } from '@/app/utils/draw';
+import { DrawCells, DrawGrid } from '@/app/utils/draw';
 import { nextGeneration } from '@/app/utils/generation';
 import { handleMouseMove, handleOnClick, handleKey } from '@/app/utils/input';
 
 export default function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const lastCords = useRef<[number, number]>() as React.MutableRefObject<[number, number]>;
-    const selectionCellsSet = useRef(new Set<string>()) as React.MutableRefObject<Set<string>>;
+    const selectionCellsSet = new Set<string>();
 
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
@@ -34,8 +34,8 @@ export default function Home() {
     }, [aliveCellsSet, elementSize, getContext]); 
 
     useEffect(() => {
-        DrawSelection(selectionCellsSet, elementSize, getContext()!);
-    }, [elementSize, getContext, selectionCellsSet]);
+        DrawCells(getContext()!, elementSize, aliveCellsSet, selectionCellsSet);
+    }, [elementSize, getContext, aliveCellsSet]);
 
     useEffect(() => {
         handleKey(setIsShiftPressed, setIsCtrlPressed);

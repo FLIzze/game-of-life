@@ -10,7 +10,7 @@ function handleMouseMove(
     elementSize: number,
     aliveCellsSet: Set<string>,
     ctx: CanvasRenderingContext2D,
-    selectionCellsSet: Set<string>,
+    selectionCellsSet: React.MutableRefObject<Set<string>>,
 ) {
 
     if (!isMouseDown) return;
@@ -22,7 +22,7 @@ function handleMouseMove(
     if (isShiftPressed) {
         DrawPixel(i, j, ctx, aliveCellsSet, elementSize);
     } else if (isCtrlPressed) {
-        selectionCellsSet.add(`${i},${j}`);
+        selectionCellsSet.current.add(`${i}-${j}`);
     }
 }
 

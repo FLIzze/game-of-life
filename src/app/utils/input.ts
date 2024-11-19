@@ -9,7 +9,8 @@ function handleMouseMove(
     isCtrlPressed: boolean,
     elementSize: number,
     aliveCellsSet: Set<string>,
-    ctx: CanvasRenderingContext2D
+    ctx: CanvasRenderingContext2D,
+    selectionCellsSet: Set<string>,
 ) {
 
     if (!isMouseDown) return;
@@ -21,7 +22,7 @@ function handleMouseMove(
     if (isShiftPressed) {
         DrawPixel(i, j, ctx, aliveCellsSet, elementSize);
     } else if (isCtrlPressed) {
-        console.log('ctrl pressed', i, j);
+        selectionCellsSet.add(`${i},${j}`);
     }
 }
 

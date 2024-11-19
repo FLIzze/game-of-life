@@ -2,13 +2,14 @@
 
 import { useRef, useEffect, useMemo, useCallback, useState } from 'react';
 
-import { DrawGrid } from '@/app/utils/draw';
+import { DrawGrid, DrawSelection } from '@/app/utils/draw';
 import { nextGeneration } from '@/app/utils/generation';
 import { handleMouseMove, handleOnClick, handleKey } from '@/app/utils/input';
 
 export default function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const lastCords = useRef<[number, number]>() as React.MutableRefObject<[number, number]>;
+    const selectionCellsSet = useRef(new Set<string>()) as React.MutableRefObject<Set<string>>;
 
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
@@ -33,6 +34,10 @@ export default function Home() {
     }, [aliveCellsSet, elementSize, getContext]); 
 
     useEffect(() => {
+        DrawSelection(selectionCellsSet, elementSize, getContext()!);
+    }, [elementSize, getContext, selectionCellsSet]);
+
+    useEffect(() => {
         handleKey(setIsShiftPressed, setIsCtrlPressed);
     }, []);
 
@@ -50,8 +55,9 @@ export default function Home() {
                 onMouseUp={(e) => {
                     e.preventDefault();
                     setIsMouseDown(false);
+                    console.log(selectionCellsSet);
                 }} 
-                onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, isCtrlPressed, elementSize, aliveCellsSet, getContext()!)}
+                onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, isCtrlPressed, elementSize, aliveCellsSet, getContext()!, selectionCellsSet)}
             />
 
             <div className='fixed bottom-0 bg-white w-screen text-xl flex gap-x-5'>

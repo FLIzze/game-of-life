@@ -65,4 +65,17 @@ function DrawCells(
     });
 }
 
-export { DrawPixel, DrawGrid, DrawCells };
+function DrawSelection(
+    selectionCellsSet: React.MutableRefObject<Set<string>>,
+    elementSize: number,
+    ctx: CanvasRenderingContext2D
+) {
+    return;
+    // selectionCellsSet.forEach(key => {
+    //     const [i, j] = key.split(',').map(Number);
+    //     ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    //     ctx.fillRect(i * elementSize + 1, j * elementSize + 1, elementSize - 2, elementSize - 2);
+    // });
+}
+
+export { DrawPixel, DrawGrid, DrawCells, DrawSelection };

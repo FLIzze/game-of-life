@@ -9,8 +9,8 @@ import { handleMouseMove, handleOnClick, handleKey } from '@/app/utils/input';
 export default function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const lastCords = useRef<[number, number]>() as React.MutableRefObject<[number, number]>;
-    const selectionCellsSet = new Set<string>();
 
+    const selectionCellsSet = useMemo(() => new Set<string>(), []);
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
     const [isShiftPressed, setIsShiftPressed] = useState(false);
@@ -35,7 +35,7 @@ export default function Home() {
 
     useEffect(() => {
         DrawCells(getContext()!, elementSize, aliveCellsSet, selectionCellsSet);
-    }, [elementSize, getContext, aliveCellsSet]);
+    }, [elementSize, getContext, aliveCellsSet, selectionCellsSet]);
 
     useEffect(() => {
         handleKey(setIsShiftPressed, setIsCtrlPressed);
@@ -55,7 +55,6 @@ export default function Home() {
                 onMouseUp={(e) => {
                     e.preventDefault();
                     setIsMouseDown(false);
-                    console.log(selectionCellsSet);
                 }} 
                 onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, isCtrlPressed, elementSize, aliveCellsSet, getContext()!, selectionCellsSet)}
             />

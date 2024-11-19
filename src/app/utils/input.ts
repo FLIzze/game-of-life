@@ -1,16 +1,18 @@
 import { GetCords } from '@/app/utils/cords';
-import { DrawPixel } from '@/app/utils/draw';
+import { DrawCell } from '@/app/utils/draw';
+
+import { MutableRefObject, Dispatch, SetStateAction, MouseEvent } from 'react';
 
 function handleMouseMove(
-    e: React.MouseEvent<HTMLCanvasElement>,
-    lastCords: React.MutableRefObject<[number, number]>,
+    e: MouseEvent<HTMLCanvasElement>,
+    lastCords: MutableRefObject<[number, number]>,
     isMouseDown: boolean,
     isShiftPressed: boolean,
     isCtrlPressed: boolean,
     elementSize: number,
     aliveCellsSet: Set<string>,
     ctx: CanvasRenderingContext2D,
-    selectionCellsSet: React.MutableRefObject<Set<string>>,
+    selectionCellsSet: Set<string>,
 ) {
 
     if (!isMouseDown) return;
@@ -20,15 +22,15 @@ function handleMouseMove(
     lastCords.current = [i, j];
 
     if (isShiftPressed) {
-        DrawPixel(i, j, ctx, aliveCellsSet, elementSize);
+        DrawCell(i, j, ctx, aliveCellsSet, elementSize);
     } else if (isCtrlPressed) {
-        selectionCellsSet.current.add(`${i}-${j}`);
+        selectionCellsSet.add(`${i}-${j}`);
     }
 }
 
 function handleOnClick(
-    e: React.MouseEvent<HTMLCanvasElement>,
-    lastCords: React.MutableRefObject<[number, number]>,
+    e: MouseEvent<HTMLCanvasElement>,
+    lastCords: MutableRefObject<[number, number]>,
     isShiftPressed: boolean,
     elementSize: number,
     aliveCellsSet: Set<string>,
@@ -39,12 +41,12 @@ function handleOnClick(
 
     const [i, j] = GetCords(e, elementSize);
     lastCords.current = [i, j];
-    DrawPixel(i, j, ctx, aliveCellsSet, elementSize);
+    DrawCell(i, j, ctx, aliveCellsSet, elementSize);
 }
 
 function handleKey(
-    setIsShiftPressed: React.Dispatch<React.SetStateAction<boolean>>,
-    setIsCtrlPressed: React.Dispatch<React.SetStateAction<boolean>>
+    setIsShiftPressed: Dispatch<SetStateAction<boolean>>,
+    setIsCtrlPressed: Dispatch<SetStateAction<boolean>>
 ) {
 
     const handleKeyDown = (e: KeyboardEvent) => {

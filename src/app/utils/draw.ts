@@ -1,4 +1,4 @@
-function DrawPixel(
+function DrawCell(
     i: number, 
     j: number, 
     ctx: CanvasRenderingContext2D,
@@ -65,4 +65,4 @@ function DrawCells(
     });
 }
 
-export { DrawPixel, DrawGrid, DrawCells };
+export { DrawCell, DrawGrid, DrawCells };

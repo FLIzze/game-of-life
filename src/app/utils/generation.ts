@@ -1,6 +1,6 @@
 import { DrawCells } from '@/app/utils/draw';
 
-function getNeighbors(
+function GetNeighbors(
     i: number, 
     j: number,
     aliveCellsSet: Set<string>
@@ -20,7 +20,7 @@ function getNeighbors(
     return count;
 }
 
-function nextGeneration(
+function NextGeneration(
     aliveCellsSet: Set<string>,
     elementSize: number,
     ctx: CanvasRenderingContext2D,
@@ -31,7 +31,7 @@ function nextGeneration(
 
     for (const key of aliveCellsSet) {
         const [i, j] = key.split('-').map(Number);
-        const neighbors = getNeighbors(i, j, aliveCellsSet);
+        const neighbors = GetNeighbors(i, j, aliveCellsSet);
 
         if (neighbors === 3 || neighbors === 2) {
             tempAliveCellsSet.add(key);  
@@ -50,7 +50,7 @@ function nextGeneration(
                 const nj = j + dy;
                 const neighborKey = `${ni}-${nj}`;
 
-                if (!aliveCellsSet.has(neighborKey) && getNeighbors(ni, nj, aliveCellsSet) === 3) {
+                if (!aliveCellsSet.has(neighborKey) && GetNeighbors(ni, nj, aliveCellsSet) === 3) {
                     tempAliveCellsSet.add(neighborKey);  
                     cellsToDraw.add(neighborKey);
                 }
@@ -64,4 +64,4 @@ function nextGeneration(
     DrawCells(ctx, elementSize, aliveCellsSet, cellsToDraw);
 }
 
-export { nextGeneration };
+export { NextGeneration };

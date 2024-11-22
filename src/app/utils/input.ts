@@ -8,13 +8,10 @@ function handleMouseMove(
     lastCords: MutableRefObject<[number, number]>,
     isMouseDown: boolean,
     isShiftPressed: boolean,
-    isCtrlPressed: boolean,
     elementSize: number,
     aliveCellsSet: Set<string>,
-    ctx: CanvasRenderingContext2D,
-    selectionCellsSet: Set<string>,
+    ctx: CanvasRenderingContext2D
 ) {
-
     if (!isMouseDown) return;
 
     const [i, j] = GetCords(e, elementSize);
@@ -23,8 +20,6 @@ function handleMouseMove(
 
     if (isShiftPressed) {
         DrawCell(i, j, ctx, aliveCellsSet, elementSize);
-    } else if (isCtrlPressed) {
-        selectionCellsSet.add(`${i}-${j}`);
     }
 }
 
@@ -36,7 +31,6 @@ function handleOnClick(
     aliveCellsSet: Set<string>,
     ctx: CanvasRenderingContext2D
 ) {
-
     if (isShiftPressed) return;
 
     const [i, j] = GetCords(e, elementSize);
@@ -45,23 +39,17 @@ function handleOnClick(
 }
 
 function handleKey(
-    setIsShiftPressed: Dispatch<SetStateAction<boolean>>,
-    setIsCtrlPressed: Dispatch<SetStateAction<boolean>>
+    setIsShiftPressed: Dispatch<SetStateAction<boolean>>
 ) {
-
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Shift') {
             setIsShiftPressed(true)
-        } else if (e.key === 'Control') {
-            setIsCtrlPressed(true);
         }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
         if (e.key === 'Shift') {
             setIsShiftPressed(false);
-        } else if (e.key === 'Control') {
-            setIsCtrlPressed(false);
         }
     };
 

@@ -5,7 +5,6 @@ function DrawCell(
     aliveCellsSet: Set<string>,
     elementSize: number
 ) {
-
     const key = `${i}-${j}`;
 
     if (aliveCellsSet.has(key)) {
@@ -25,7 +24,6 @@ function DrawGrid(
     elementSize: number,
     aliveCellsSet: Set<string>
 ) {
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i <= canvas.width; i += elementSize) {
@@ -65,4 +63,9 @@ function DrawCells(
     });
 }
 
-export { DrawCell, DrawGrid, DrawCells };
+function Clear(canvasRef: React.RefObject<HTMLCanvasElement>, ctx: CanvasRenderingContext2D, elementSize: number, aliveCellsSet: Set<string>) {
+    aliveCellsSet.clear();
+    DrawGrid(canvasRef.current!, ctx, elementSize, aliveCellsSet);
+}
+
+export { DrawCell, DrawGrid, DrawCells, Clear };

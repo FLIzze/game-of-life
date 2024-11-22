@@ -64,4 +64,14 @@ function NextGeneration(
     DrawCells(ctx, elementSize, aliveCellsSet, cellsToDraw);
 }
 
-export { NextGeneration };
+function Play(
+    speedPlayMS: number, 
+    aliveCellsSet: Set<string>, 
+    elementSize: number, 
+    ctx: CanvasRenderingContext2D
+) {
+    NextGeneration(aliveCellsSet, elementSize, ctx);
+    setTimeout(() => Play(speedPlayMS, aliveCellsSet, elementSize, ctx), speedPlayMS);
+}
+
+export { NextGeneration, Play };

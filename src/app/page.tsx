@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useCallback } from 'react';
+import { useRef, useMemo, useCallback, useState } from 'react';
 
 import Footer from '@/app/components/Footer';
 import Body from '@/app/components/Body';
@@ -10,7 +10,8 @@ export default function Home() {
 
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
-    const elementSize = 20;
+    const [speedPlayMS, setSpeedPlayMS] = useState(1000);
+    const [elementSize] = useState(20);
     const gridWidth = 2560;
     const gridHeight = 1440;
 
@@ -35,6 +36,7 @@ export default function Home() {
                 elementSize={elementSize} 
                 ctx={getContext()!} 
                 canvasRef={canvasRef}
+                speedPlayMS={speedPlayMS}
             />
         </div>
     );

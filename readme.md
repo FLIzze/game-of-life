@@ -11,7 +11,7 @@
 - [x] Can clear all cells
 - [x] Can go to next generation of cells
 - [ ] Can go to previous generation of cells AKA history
-- [ ] Can play infinitely 
+- [x] Can play infinitely 
 - [ ] Can pause 
 - [ ] Can speed up or slow down play speed
 - [ ] Can hide or show grid lines
@@ -19,4 +19,5 @@
 - [ ] Can change cell size
 
 #### Advanced Control
+- [ ] Add shortcuts for all controls
 - [ ] Allow user to create  / save / load custom patterns

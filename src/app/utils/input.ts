@@ -13,6 +13,7 @@ function handleMouseMove(
     ctx: CanvasRenderingContext2D
 ) {
     if (!isMouseDown) return;
+    if (!ctx) return;
 
     const [i, j] = GetCords(e, elementSize);
     if (lastCords.current && lastCords.current[0] === i && lastCords.current[1] === j) return;

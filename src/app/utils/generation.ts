@@ -23,7 +23,7 @@ function GetNeighbors(
 function NextGeneration(
     aliveCellsSet: Set<string>,
     elementSize: number,
-    ctx: CanvasRenderingContext2D,
+    ctx: CanvasRenderingContext2D | undefined,
 ) {
 
     const tempAliveCellsSet = new Set<string>();

@@ -67,14 +67,14 @@ function DrawCells(
 }
 
 function Clear(
-    canvasRef: HTMLCanvasElement,
+    canvasRef: MutableRefObject<HTMLCanvasElement | undefined>,
     ctx: CanvasRenderingContext2D, 
     elementSize: number, 
     aliveCellsSet: Set<string>,
     isGridClear: boolean
 ) {
     aliveCellsSet.clear();
-    DrawGrid(canvasRef, ctx, elementSize, aliveCellsSet, isGridClear);
+    DrawGrid(canvasRef.current!, ctx, elementSize, aliveCellsSet, isGridClear);
 }
 
 export { DrawCell, DrawGrid, DrawCells, Clear };

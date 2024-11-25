@@ -1,37 +1,23 @@
 "use client";
 
-import { useRef, useState, useEffect, RefObject } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import { handleMouseMove, handleOnClick, handleKey } from '@/app/utils/input';
 import { DrawGrid } from '@/app/utils/draw';
+import { BodyProps } from '@/app/interfaces';
 
-interface BodyProps {
-    ctx: CanvasRenderingContext2D;
-    elementSize: number;
-    aliveCellsSet: Set<string>;
-    canvasRef: RefObject<HTMLCanvasElement>;
-    gridWidth: number;
-    gridHeight: number;
-}
+function Body({ props }: { props: BodyProps }) {
+    const { ctx, cellSize, aliveCellsSet, canvasRef, gridWidth, gridHeight, isGridTransparent, isLoading } = props;
 
-function Body({ 
-    ctx, 
-    elementSize, 
-    aliveCellsSet, 
-    canvasRef,
-    gridWidth,
-    gridHeight
-}: BodyProps) {
     const lastCords = useRef<[number, number]>() as React.MutableRefObject<[number, number]>;
-
     const [isShiftPressed, setIsShiftPressed] = useState(false);
     const [isMouseDown, setIsMouseDown] = useState(false);
 
     useEffect(() => {
-        if (!ctx) return;
+        if (!ctx.current || !canvasRef.current) return;
 
-        DrawGrid(canvasRef.current!, ctx, elementSize, aliveCellsSet);
-    }, [aliveCellsSet, elementSize, ctx, canvasRef]);
+        DrawGrid(canvasRef.current, ctx.current, cellSize, aliveCellsSet, isGridTransparent);
+    }, [aliveCellsSet, cellSize, ctx, canvasRef, isGridTransparent, isLoading]);
 
     useEffect(() => {
         handleKey(setIsShiftPressed);
@@ -42,7 +28,7 @@ function Body({
             ref={canvasRef} 
             height={gridHeight}
             width={gridWidth}
-            onClick={(e) => handleOnClick(e, lastCords, isShiftPressed, elementSize, aliveCellsSet, ctx)}
+            onClick={(e) => handleOnClick(e, lastCords, isShiftPressed, cellSize, aliveCellsSet, ctx.current!)}
 
             onMouseDown={(e) => {
                 e.preventDefault();
@@ -54,7 +40,7 @@ function Body({
                 setIsMouseDown(false);
             }} 
 
-            onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, elementSize, aliveCellsSet, ctx)}
+            onMouseMove={(e) => handleMouseMove(e, lastCords, isMouseDown, isShiftPressed, cellSize, aliveCellsSet, ctx.current!)}
         />
     )
 }

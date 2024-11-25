@@ -1,48 +1,54 @@
 "use client";
 
-import { Dispatch, RefObject, useRef, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 
 import { NextGeneration } from '@/app/utils/generation';
 import { Clear } from '@/app/utils/draw';
 import Button from '@/app/ui/Button';
+import { FooterProps } from '@/app/interfaces';
 
-interface FooterProps {
-    aliveCellsSet: Set<string>;
-    elementSize: number;
-    ctx: CanvasRenderingContext2D;
-    canvasRef: RefObject<HTMLCanvasElement>;
-    speedPlayMS: number;
-    setSpeedPlayMS: Dispatch<SetStateAction<number>>;
-}
+function Footer({ props }: { props: FooterProps }) {
+    const { aliveCellsSet, cellSize, setCellSize, ctx, canvasRef, setIsGridTransparent, isGridTransparent } = props;
 
-function Footer({ 
-    aliveCellsSet, 
-    elementSize, 
-    ctx, 
-    canvasRef,
-    speedPlayMS,
-    setSpeedPlayMS
-}: FooterProps) {
-    console.log(setSpeedPlayMS);
-    const isPlaying = useRef(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [speedPlayMs, setSpeedPlayMs] = useState(500);
 
-    function handlePlay() {
-        if (!isPlaying.current) return;
+    useEffect(() => {
+        if (!isPlaying) return;
 
-        NextGeneration(aliveCellsSet, elementSize, ctx);
-        setTimeout(() => handlePlay(), speedPlayMS);
-    }
+        const playInterval = setInterval(() => {
+            NextGeneration(aliveCellsSet, cellSize, ctx.current!);
+        }, speedPlayMs);
+
+        return () => clearInterval(playInterval);
+    }, [isPlaying, aliveCellsSet, cellSize, ctx, speedPlayMs]);
 
     return (
         <div className='fixed bottom-0 bg-white w-screen text-xl flex gap-x-5 justify-center h-12'>
-            <Button onClick={() => NextGeneration(aliveCellsSet, elementSize, ctx)} label='next generation' />
-            <Button onClick={() => Clear(canvasRef, ctx, elementSize, aliveCellsSet)} label='clear' />
-            <Button 
-                label={isPlaying ? 'pause' : 'play'} 
-                onClick={() => {
-                    isPlaying.current = !isPlaying.current;
-                    handlePlay();
-                }} />
+            <Button onClick={() => NextGeneration(aliveCellsSet, cellSize, ctx.current!)} label='next generation' />
+            <Button onClick={() => Clear(canvasRef.current!, ctx.current!, cellSize, aliveCellsSet, isGridTransparent)} label='clear' />
+            <Button label={isPlaying ? 'pause' : 'play'} onClick={() => setIsPlaying(prev => !prev)} />
+
+            <input 
+                type='range' 
+                min='100' 
+                max='1000' 
+                value={speedPlayMs} 
+                onChange={(e) =>  setSpeedPlayMs(parseInt(e.target.value))} 
+            />
+            <input 
+                type='range' 
+                min='10' 
+                max='100' 
+                value={cellSize} 
+                onChange={(e) => setCellSize(parseInt(e.target.value))} 
+            />
+
+            <input
+                type='checkbox'
+                checked={isGridTransparent}
+                onChange={() => setIsGridTransparent(prev => !prev)}
+            />
         </div>
     )
 }

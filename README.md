@@ -10,14 +10,20 @@
 #### Basic Control
 - [x] Can clear all cells
 - [x] Can go to next generation of cells
-- [ ] Can go to previous generation of cells AKA history
 - [x] Can play infinitely 
-- [ ] Can pause 
+- [x] Can pause 
+- [ ] Can change cell size
+- [ ] Eraser tool
+- [ ] Can go to previous generation of cells AKA history
 - [ ] Can speed up or slow down play speed
 - [ ] Can hide or show grid lines
-- [ ] Eraser tool
-- [ ] Can change cell size
 
 #### Advanced Control
 - [ ] Add shortcuts for all controls
 - [ ] Allow user to create  / save / load custom patterns
+
+#### Bug to fix
+- [ ] Need to hit ctrl w to display grid at first load
+
+#### Front
+- [ ] Not to hideous to look at

@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useMemo, useCallback, useState } from 'react';
+import { useRef, useMemo, useState } from 'react';
 
 import Footer from '@/app/components/Footer';
 import Body from '@/app/components/Body';
 
 export default function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const ctx = canvasRef.current?.getContext('2d') as CanvasRenderingContext2D;
 
     const aliveCellsSet = useMemo(() => new Set<string>(), []);
 
@@ -15,17 +16,12 @@ export default function Home() {
     const gridWidth = 2560;
     const gridHeight = 1440;
 
-    const getContext = useCallback(() => {
-        const canvas = canvasRef.current;
-        return canvas?.getContext('2d');
-    }, []);
-
     return (
         <div>
             <Body 
                 aliveCellsSet={aliveCellsSet} 
                 elementSize={elementSize} 
-                ctx={getContext()!} 
+                ctx={ctx} 
                 canvasRef={canvasRef}
                 gridWidth={gridWidth}
                 gridHeight={gridHeight}
@@ -34,9 +30,10 @@ export default function Home() {
             <Footer 
                 aliveCellsSet={aliveCellsSet} 
                 elementSize={elementSize} 
-                ctx={getContext()!} 
+                ctx={ctx} 
                 canvasRef={canvasRef}
                 speedPlayMS={speedPlayMS}
+                setSpeedPlayMS={setSpeedPlayMS}
             />
         </div>
     );

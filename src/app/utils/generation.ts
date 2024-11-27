@@ -61,7 +61,7 @@ function NextGeneration(
     aliveCellsSet.clear(); 
     tempAliveCellsSet.forEach(cell => aliveCellsSet.add(cell)); 
 
-    DrawCells(ctx, elementSize, aliveCellsSet, cellsToDraw);
+    DrawCells(ctx!, elementSize, aliveCellsSet, cellsToDraw);
 }
 
 export { NextGeneration };

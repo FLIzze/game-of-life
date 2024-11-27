@@ -4,8 +4,7 @@
 - [x] Grid of cells
 - [x] Add cells by clicking on them
 - [x] Add groups of cells by dragging using `shift`
-- [ ] Can zoom in and out
-- [ ] Infinite grid
+- [x] Can zoom in and out
 
 #### Basic Control
 - [x] Can clear all cells
@@ -15,8 +14,6 @@
 - [x] Can speed up or slow down play speed
 - [x] Can change cell size
 - [x] Can hide or show grid lines
-- [ ] Eraser tool
-- [ ] Can go to previous generation of cells AKA history
 
 #### Advanced Control
 - [ ] Add shortcuts for all controls

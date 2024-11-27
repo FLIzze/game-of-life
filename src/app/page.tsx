@@ -14,8 +14,8 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [cellSize, setCellSize] = useState(20);
     const [isGridTransparent, setIsGridTransparent] = useState(false);
-    const gridWidth = 2560;
-    const gridHeight = 1440;
+    const gridWidth = window.innerWidth;
+    const gridHeight = window.innerHeight;
 
     useEffect(() => {
         if (canvasRef.current) {

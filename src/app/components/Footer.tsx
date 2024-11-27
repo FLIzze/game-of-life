@@ -25,30 +25,43 @@ function Footer({ props }: { props: FooterProps }) {
 
     return (
         <div className='fixed bottom-0 bg-white w-screen text-xl flex gap-x-5 justify-center h-12'>
-            <Button onClick={() => NextGeneration(aliveCellsSet, cellSize, ctx.current!)} label='next generation' />
-            <Button onClick={() => Clear(canvasRef.current!, ctx.current!, cellSize, aliveCellsSet, isGridTransparent)} label='clear' />
-            <Button label={isPlaying ? 'pause' : 'play'} onClick={() => setIsPlaying(prev => !prev)} />
+            <Button onClick={() => NextGeneration(aliveCellsSet, cellSize, ctx.current!)} label='Next generation' />
+            <Button onClick={() => Clear(canvasRef.current!, ctx.current!, cellSize, aliveCellsSet, isGridTransparent)} label='Clear canvas' />
+            <Button label={isPlaying ? 'Pause' : 'Play'} onClick={() => setIsPlaying(prev => !prev)} />
 
-            <input 
-                type='range' 
-                min='100' 
-                max='1000' 
-                value={speedPlayMs} 
-                onChange={(e) =>  setSpeedPlayMs(parseInt(e.target.value))} 
-            />
-            <input 
-                type='range' 
-                min='10' 
-                max='100' 
-                value={cellSize} 
-                onChange={(e) => setCellSize(parseInt(e.target.value))} 
-            />
+            <div className='flex items-center gap-x-3'>
+                <label htmlFor='Speed'>Delay {speedPlayMs} MS</label>
+                <input 
+                    id='Speed'
+                    type='range' 
+                    min='100' 
+                    max='1000' 
+                    value={speedPlayMs} 
+                    onChange={(e) =>  setSpeedPlayMs(parseInt(e.target.value))} 
+                />
+            </div>
 
-            <input
-                type='checkbox'
-                checked={isGridTransparent}
-                onChange={() => setIsGridTransparent(prev => !prev)}
-            />
+            <div className='flex items-center gap-x-3'>
+                <label htmlFor='Size'>Size {cellSize}</label>
+                <input 
+                    id='Size'
+                    type='range' 
+                    min='5' 
+                    max='200' 
+                    value={cellSize} 
+                    onChange={(e) => setCellSize(parseInt(e.target.value))} 
+                />
+            </div>
+
+            <div className='flex items-center gap-x-3'>
+                <label htmlFor='Transparent'>{isGridTransparent ? 'Show' : 'Hide'}</label>
+                <input
+                    id='Transparent'
+                    type='checkbox'
+                    checked={isGridTransparent}
+                    onChange={() => setIsGridTransparent(prev => !prev)}
+                />
+            </div>
         </div>
     )
 }

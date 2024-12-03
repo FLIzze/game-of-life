@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm build
+
 EXPOSE 1234
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start", "--", "--port", "1234"]

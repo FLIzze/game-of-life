@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 
 import { NextGeneration } from '@/app/utils/generation';
 import { Clear } from '@/app/utils/draw';
-import Button from '@/app/ui/Button';
 import { FooterProps } from '@/app/interfaces';
 import Image from 'next/image';
 

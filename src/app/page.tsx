@@ -14,10 +14,15 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [cellSize, setCellSize] = useState(20);
     const [isGridTransparent, setIsGridTransparent] = useState(false);
-    const gridWidth = window.innerWidth;
-    const gridHeight = window.innerHeight;
+    const [gridWidth, setGridWidth] = useState(0);
+    const [gridHeight, setGridHeight] = useState(0);
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setGridWidth(window.innerWidth);
+            setGridHeight(window.innerHeight);
+        }
+
         if (canvasRef.current) {
             ctx.current = canvasRef.current.getContext('2d');
         }
@@ -25,12 +30,12 @@ export default function Home() {
         setIsLoading(false);
     }, []);
 
-    const BodyProps = {aliveCellsSet, cellSize, ctx, canvasRef, gridWidth, gridHeight, isGridTransparent, isLoading};
-    const FooterProps = {aliveCellsSet, cellSize, setCellSize, ctx, canvasRef, isGridTransparent, setIsGridTransparent};
+    const BodyProps = { aliveCellsSet, cellSize, ctx, canvasRef, gridWidth, gridHeight, isGridTransparent, isLoading };
+    const FooterProps = { aliveCellsSet, cellSize, setCellSize, ctx, canvasRef, isGridTransparent, setIsGridTransparent };
 
     return (
         <>
-            <Body props={BodyProps}/>
+            <Body props={BodyProps} />
             <Footer props={FooterProps} />
         </>
     );

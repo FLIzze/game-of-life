@@ -5,12 +5,12 @@ interface ButtonProps {
 
 function Button({ 
     label, 
-    onClick 
+    onClick,
 }: ButtonProps) {
     return (
         <button 
             onClick={onClick}
-        > {label} </button>
+        > {label}</button>
     )
 }
 
